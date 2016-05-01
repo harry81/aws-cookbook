@@ -37,7 +37,7 @@ bash "run uwsgi" do
   export HOME=/home/deploy
   source venv/bin/activate
   cd src/news/backend
-  uwsgi --ini uwsgi.ini
+  python manage.py loadnews all
   BASH
   action :run
 end
