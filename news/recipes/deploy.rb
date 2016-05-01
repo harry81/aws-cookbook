@@ -30,7 +30,6 @@ ENV['JAVA_HOME'] = node.news.java_home
 bash "pip install package" do
   user "deploy"
   cwd node.news.deploy_path
-  #environment node
   code <<-BASH
   export HOME=/home/deploy
   if [ ! -d venv ]; then
@@ -42,16 +41,14 @@ bash "pip install package" do
   action :run
 end
 
-ENV['HOME'] = node.news.deploy_path
-ENV['JAVA_HOME'] = node.news.java_home
-bash "run news" do
+bash "run uwsgi" do
   user "deploy"
   cwd node.news.deploy_path
   code <<-BASH
   export HOME=/home/deploy
   source venv/bin/activate
   cd src/news/backend
-  python manage.py runserver &
+  uwsgi --ini uwsgi.ini
   BASH
   action :run
 end

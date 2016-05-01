@@ -58,6 +58,7 @@ bash "link nginx conf" do
   if [ ! -f /etc/nginx/sites-enabled/news_conf.nginx ]; then
     ln -s /etc/nginx/sites-available/news_conf.nginx  /etc/nginx/sites-enabled/
   fi
+  /etc/init.d/nginx restart
   BASH
   action :run
 end
