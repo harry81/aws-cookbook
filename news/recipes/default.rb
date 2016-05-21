@@ -73,6 +73,7 @@ bash "fetch news" do
     cd news
   else
     cd news
+    git fetch -p
     git reset --hard origin/master
   fi
   BASH

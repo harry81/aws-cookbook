@@ -1,4 +1,4 @@
-bash "load news" do
+bash "load postdam" do
   user "deploy"
   cwd node.news.deploy_path
   code <<-BASH
