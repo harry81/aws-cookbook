@@ -82,6 +82,7 @@ end
 
 ENV['HOME'] = node.news.deploy_path
 ENV['JAVA_HOME'] = node.news.java_home
+
 bash "pip install package" do
   user "deploy"
   cwd node.news.deploy_path

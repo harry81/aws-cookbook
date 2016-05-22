@@ -2,21 +2,29 @@ upstream django {
     server unix:/tmp/uwsgi.sock;
 }
 
-# configuration of the server
 server {
     listen      80;
+    client_max_body_size 20M;
+    root /home/deploy/src/hoodpub/web;
     server_name ~^(.+)$;
+    #        server_name hoodpub.com  www.hoodpub.com;
+#    return  301 https://$server_name$request_uri;
     charset     utf-8;
 
-    client_max_body_size 75M;   # adjust to taste
+    listen 443 ssl;
 
-    # location /media  {
-    #     alias /path/to/your/mysite/media;  # your Django project's media files - amend as required
-    # }
+    ssl on;
+    ssl_certificate /home/deploy/ssl/ssl_2016/hoodpub.com.pem;
+    ssl_certificate_key /home/deploy/ssl/ssl_2016/hoodpub.com.key;
 
-    # location /static {
-    #     alias /path/to/your/mysite/static; # your Django project's static files - amend as required
-    # }
+    location /media  {
+        alias /home/deploy/src/hoodpub/web/media/;
+    }
+
+    location /static {
+        autoindex on;
+        alias /home/deploy/src/hoodpub/web/static/;
+    }
 
     location / {
         uwsgi_pass  django;

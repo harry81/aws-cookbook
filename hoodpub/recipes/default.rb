@@ -21,6 +21,7 @@ package "libxml2-dev"
 package "libxslt1.1"
 package "libncurses-dev"
 package "libpq-dev"
+package "python-imaging"
 
 user node.hoodpub.deploy do
   comment 'hoodpub user'
@@ -63,19 +64,12 @@ bash "link nginx conf" do
   action :run
 end
 
-bash "fetch hoodpub" do
-  user "deploy"
+bash "add 127.0.0.1 in etc/hosts" do
+  user "root"
   cwd node.hoodpub.src_path
 
   code <<-BASH
-  if [ ! -d hoodpub ]; then
-    git clone #{node.hoodpub.src_git_url}
-    cd hoodpub
-  else
-    cd hoodpub
-    git fetch -p
-    git reset --hard origin/master
-  fi
+  echo '127.0.0.1 redis' >> /etc/hosts
   BASH
   action :run
 end
