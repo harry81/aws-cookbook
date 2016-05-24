@@ -64,14 +64,10 @@ bash "link nginx conf" do
   action :run
 end
 
-bash "add 127.0.0.1 in etc/hosts" do
-  user "root"
-  cwd node.hoodpub.src_path
-
-  code <<-BASH
-  echo '127.0.0.1 redis' >> /etc/hosts
-  BASH
-  action :run
+hostsfile_entry '127.0.0.1' do
+  hostname  'redis'
+  action    :create
 end
+
 
 ENV['HOME'] = node.hoodpub.deploy_path
